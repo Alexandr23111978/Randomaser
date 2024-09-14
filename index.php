@@ -12,27 +12,43 @@
         <form action="index.php" method="post">
             <div class="row justify-content-lg-center justify-content-md-start gy-md-4 gy-sm-2 mb-4">
                 <div class="col-md-3 col-lg-2">
-                    <input type="number" step="any" class="form-control text-center" placeholder="W_est" aria-label="estWl">
+                    <input type="number" step="any" class="form-control text-center" placeholder="W_est" aria-label="estWl" name="estWl">
                 </div>
                 <div class="col-md-3 col-lg-2">
-                    <input type="number" step="any" class="form-control text-center" placeholder="W_opt" aria-label="optWl">
+                    <input type="number" step="any" class="form-control text-center" placeholder="W_opt" aria-label="optWl" name="optWl">
                 </div>
                 <div class="col-md-3 col-lg-2">
-                    <input type="number" step="any" class="form-control text-center" placeholder="max_P" aria-label="maxP">
+                    <input type="number" step="any" class="form-control text-center" placeholder="max_P" aria-label="maxP" name="maxP">
                 </div>
                 <div class="col-md-3 col-lg-2">
-                    <input type="number" step="any" class="form-control text-center" placeholder="kup" aria-label="kup">
+                    <input type="number" step="any" class="form-control text-center" placeholder="kup" aria-label="kup" name="kup">
                 </div>
                 <div class="col-md-3 col-lg-2">
-                    <input type="number" class="form-control text-center" placeholder="col" aria-label="col">
+                    <input type="number" class="form-control text-center" placeholder="V_cil" aria-label="colV" name="colV">
+                </div>
+                <div class="col-md-3 col-lg-2">
+                    <input type="number" class="form-control text-center" placeholder="col" aria-label="col" name="col">
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Отправить</button>
+            <button type="submit" class="btn btn-primary" name="submit">Отправить</button>
         </form>
     </div>
 
     <?php
+        if(isset($_POST["submit"])){
+            if($_POST["estWl"] && $_POST["optWl"] && $_POST["kup"] && $_POST["maxP"] && $_POST["colV"] && $_POST["col"] !== null){
+                echo $_POST['estWl'] ." ". $_POST['optWl'] ." ". $_POST["maxP"] ." ". $_POST['kup'] ." ". $_POST['colV'] ." ". $_POST['col'];
+            }
+            else echo "<div class='container bg-danger text-center text-white mb-3 p-4'><h2>Заполни все поля, придурок!!!!</h2></div>";
+        }
 
+    ?>
+
+    <?php
+        function random($min, $max)
+        {
+            return mt_rand($min, $max);
+        }
     ?>
 
 
