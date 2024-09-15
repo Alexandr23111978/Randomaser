@@ -37,19 +37,65 @@
     <?php
         if(isset($_POST["submit"])){
             if($_POST["estWl"] && $_POST["optWl"] && $_POST["kup"] && $_POST["maxP"] && $_POST["colV"] && $_POST["col"] !== null){
-                echo $_POST['estWl'] ." ". $_POST['optWl'] ." ". $_POST["maxP"] ." ". $_POST['kup'] ." ". $_POST['colV'] ." ". $_POST['col'];
+                $est = $_POST["estWl"];
+                $opt = $_POST["optWl"];
+                $maxP = $_POST["maxP"];
+                $kup = $_POST["kup"];
+                $colV = $_POST["colV"];
+                $col = $_POST["col"];
+                echo "<div class='row justify-content-center'>
+                        <div class='col-md-1 bg-info text-white text-center'>№-п/п</div>
+                        <div class='col-md-1 bg-info text-white text-center'>m-вл</div>
+                        <div class='col-md-1 bg-info text-white text-center'>m-сх</div>
+                        <div class='col-md-1 bg-info text-white text-center'>Р-вл</div>
+                        <div class='col-md-1 bg-info text-white text-center'>Р-сх</div>
+                        <div class='col-md-1 bg-info text-white text-center'>V-кольца</div>
+                        <div class='col-md-1 bg-info text-white text-center'>W-est</div>
+                        <div class='col-md-1 bg-info text-white text-center'>max-P</div>
+                        <div class='col-md-1 bg-info text-white text-center'>Куп-тр</div>
+                        <div class='col-md-1 bg-info text-white text-center'>Куп-факт</div>
+                        </div>";
+
+                $resultArray = [];
+
+                for ($i=1; $i <= $col; $i++) {
+                    $estWl = mt_rand(intval($est)-2, intval($est)+3) + mt_rand(0, 99)/100;
+                    if($kup<=0.98){$kupF = $kup + mt_rand(0, 2)/100;}  elseif ($kup==0.99){$kupF = $kup + mt_rand(0, 1)/100;}  else $kupF = $kup;
+                    $massWl = round((1+0.01*$estWl)*$colV*$maxP*$kupF, 2);
+                    $massSx = round($massWl/(1+0.01*$estWl), 2) + mt_rand(0, 9)/100;
+                    $plWl = round($massWl/$colV, 2);
+                    $plSx = round($plWl/(1+0.01*$estWl), 2);
+
+                    $estWlCorr = round((($massWl - $massSx)/$massSx*100), 2);
+                    $plSxCorr = round($massSx/$colV, 2);
+                    $kupFCorr = round($plSxCorr/$maxP, 2);
+
+
+                    echo "<div class='row justify-content-center'>
+                       <div class='col-md-1 bg-success text-white text-center'>$i</div>
+                       <div class='col-md-1 bg-success text-white text-center'>$massWl</div>
+                       <div class='col-md-1 bg-success text-white text-center'>$massSx</div>
+                       <div class='col-md-1 bg-success text-white text-center'>$plWl</div>
+                       <div class='col-md-1 bg-success text-white text-center'>$plSxCorr</div>
+                       <div class='col-md-1 bg-success text-white text-center'>$colV</div>
+                       <div class='col-md-1 bg-success text-white text-center'>$estWlCorr</div>
+                       <div class='col-md-1 bg-success text-white text-center'>$maxP</div>
+                       <div class='col-md-1 bg-success text-white text-center'>$kup</div>
+                       <div class='col-md-1 bg-success text-white text-center'>$kupFCorr</div>    
+                    </div>";
+
+                    $resultOnce = ['№'=>$i, 'massWl'=>$massWl, 'massSx'=>$massSx, 'plWl'=>$plWl, 'plSx'=>$plSxCorr, 'colV'=>$colV, 'estWlCorr'=>$estWlCorr, 'maxP'=>$maxP, 'kup'=>$kup, 'kupF'=>$kupFCorr];
+
+                    $resultArray[] = $resultOnce;
+                }
+//                var_dump($resultArray);
             }
-            else echo "<div class='container bg-danger text-center text-white mb-3 p-4'><h2>Заполни все поля, придурок!!!!</h2></div>";
+            else echo "<div class='container bg-danger text-center text-white mb-3 p-4'><h2>Нужно заполнить все поля!!!!</h2></div>";
         }
 
     ?>
 
-    <?php
-        function random($min, $max)
-        {
-            return mt_rand($min, $max);
-        }
-    ?>
+
 
 
 
